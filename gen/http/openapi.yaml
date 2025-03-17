@@ -1,0 +1,579 @@
+swagger: "2.0"
+info:
+    title: ""
+    version: 0.0.1
+host: localhost:80
+consumes:
+    - application/json
+    - application/xml
+    - application/gob
+produces:
+    - application/json
+    - application/xml
+    - application/gob
+paths:
+    /mail-address:
+        get:
+            tags:
+                - MailAddresses
+            summary: listMailAddresses MailAddresses
+            operationId: MailAddresses#listMailAddresses
+            parameters:
+                - name: page
+                  in: query
+                  description: Page number
+                  required: false
+                  type: integer
+                  default: 1
+                  minimum: 0
+                - name: limit
+                  in: query
+                  description: Number of items per page
+                  required: false
+                  type: integer
+                  default: 10
+                  maximum: 100
+                  minimum: 0
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/Maillist'
+            schemes:
+                - http
+        post:
+            tags:
+                - MailAddresses
+            summary: createMailAddress MailAddresses
+            operationId: MailAddresses#createMailAddress
+            parameters:
+                - name: CreateMailAddressRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/MailPayload'
+            responses:
+                "201":
+                    description: Created response.
+                    schema:
+                        $ref: '#/definitions/Mail'
+                        required:
+                            - id
+                            - address
+                            - active
+                            - createdAt
+                            - updateAt
+            schemes:
+                - http
+    /mail-address/{id}:
+        get:
+            tags:
+                - MailAddresses
+            summary: getMailAddresses MailAddresses
+            description: Get mail address by ID
+            operationId: MailAddresses#getMailAddresses
+            parameters:
+                - name: id
+                  in: path
+                  description: Unique mail ID
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/Mail'
+                        required:
+                            - id
+                            - address
+                            - active
+                            - createdAt
+                            - updateAt
+                "404":
+                    description: Not Found response.
+                    schema:
+                        $ref: '#/definitions/MailAddressesGetMailAddressesNotFoundResponseBody'
+            schemes:
+                - http
+        put:
+            tags:
+                - MailAddresses
+            summary: updateMailAddress MailAddresses
+            operationId: MailAddresses#updateMailAddress
+            parameters:
+                - name: id
+                  in: path
+                  description: Unique mail ID
+                  required: true
+                  type: string
+                - name: UpdateMailAddressRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/MailAddressesUpdateMailAddressRequestBody'
+                    required:
+                        - address
+                        - active
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/Mail'
+                        required:
+                            - id
+                            - address
+                            - active
+                            - createdAt
+                            - updateAt
+                "404":
+                    description: Not Found response.
+                    schema:
+                        $ref: '#/definitions/MailAddressesUpdateMailAddressNotFoundResponseBody'
+            schemes:
+                - http
+        delete:
+            tags:
+                - MailAddresses
+            summary: deleteMailAddress MailAddresses
+            operationId: MailAddresses#deleteMailAddress
+            parameters:
+                - name: id
+                  in: path
+                  description: Unique mail ID
+                  required: true
+                  type: string
+            responses:
+                "204":
+                    description: No Content response.
+                "404":
+                    description: Not Found response.
+                    schema:
+                        $ref: '#/definitions/MailAddressesDeleteMailAddressNotFoundResponseBody'
+            schemes:
+                - http
+    /results:
+        get:
+            tags:
+                - Result
+            summary: listResults Result
+            operationId: Result#listResults
+            parameters:
+                - name: page
+                  in: query
+                  description: Page number
+                  required: false
+                  type: integer
+                  default: 1
+                  minimum: 0
+                - name: limit
+                  in: query
+                  description: Number of items per page
+                  required: false
+                  type: integer
+                  default: 10
+                  maximum: 100
+                  minimum: 0
+            responses:
+                "200":
+                    description: OK response.
+                    schema:
+                        $ref: '#/definitions/Resultlist'
+            schemes:
+                - http
+        post:
+            tags:
+                - Result
+            summary: createResult Result
+            operationId: Result#createResult
+            parameters:
+                - name: CreateResultRequestBody
+                  in: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/ResultPayload'
+            responses:
+                "201":
+                    description: Created response.
+                    schema:
+                        $ref: '#/definitions/Result'
+                        required:
+                            - id
+                            - status
+                            - createdAt
+                            - updateAt
+            schemes:
+                - http
+definitions:
+    Mail:
+        title: Mail
+        type: object
+        properties:
+            active:
+                type: boolean
+                description: Status of email address
+                default: true
+                example: true
+            address:
+                type: string
+                description: Address of user mail
+                example: 8g9
+                format: email
+                minLength: 1
+            createdAt:
+                type: string
+                description: Created at date of mail
+                example: Natus pariatur non.
+            id:
+                type: string
+                description: Unique mail ID
+                example: Corporis blanditiis qui qui deserunt.
+            updateAt:
+                type: string
+                description: Updated at date of mail
+                example: Cumque quia quisquam aliquid quam consequatur accusamus.
+        description: Mail type
+        example:
+            active: true
+            address: jn
+            createdAt: Id assumenda dolores aliquid dicta.
+            id: Odio eligendi.
+            updateAt: Dignissimos unde qui aut error.
+        required:
+            - id
+            - address
+            - active
+            - createdAt
+            - updateAt
+    MailAddressesDeleteMailAddressNotFoundResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: false
+        description: Mail address not found (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    MailAddressesGetMailAddressesNotFoundResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: Mail address not found (default view)
+        example:
+            fault: false
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    MailAddressesUpdateMailAddressNotFoundResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: false
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: false
+        description: Mail address not found (default view)
+        example:
+            fault: false
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    MailAddressesUpdateMailAddressRequestBody:
+        title: MailAddressesUpdateMailAddressRequestBody
+        type: object
+        properties:
+            active:
+                type: boolean
+                description: Status of email address
+                default: true
+                example: true
+            address:
+                type: string
+                description: Address of user mail
+                example: 9te
+                format: email
+                minLength: 1
+        example:
+            active: true
+            address: q
+        required:
+            - address
+            - active
+    MailPayload:
+        title: MailPayload
+        type: object
+        properties:
+            active:
+                type: boolean
+                description: Status of email address
+                default: true
+                example: true
+            address:
+                type: string
+                description: Address of user mail
+                example: o1a
+                format: email
+                minLength: 1
+        example:
+            active: false
+            address: 1ob
+    Maillist:
+        title: 'Mediatype identifier: maillist; view=default'
+        type: object
+        properties:
+            data:
+                type: array
+                items:
+                    $ref: '#/definitions/Mail'
+                example:
+                    - active: false
+                      address: k
+                      createdAt: Necessitatibus harum aut fuga dolorem dolore.
+                      id: Autem optio vitae ducimus neque illum quod.
+                      updateAt: Ab deleniti dicta nam praesentium iure non.
+                    - active: false
+                      address: k
+                      createdAt: Necessitatibus harum aut fuga dolorem dolore.
+                      id: Autem optio vitae ducimus neque illum quod.
+                      updateAt: Ab deleniti dicta nam praesentium iure non.
+                    - active: false
+                      address: k
+                      createdAt: Necessitatibus harum aut fuga dolorem dolore.
+                      id: Autem optio vitae ducimus neque illum quod.
+                      updateAt: Ab deleniti dicta nam praesentium iure non.
+                    - active: false
+                      address: k
+                      createdAt: Necessitatibus harum aut fuga dolorem dolore.
+                      id: Autem optio vitae ducimus neque illum quod.
+                      updateAt: Ab deleniti dicta nam praesentium iure non.
+            limit:
+                type: integer
+                description: Items per page
+                example: 7091488937539681222
+                format: int64
+            page:
+                type: integer
+                description: Page number
+                example: 8111986556158612850
+                format: int64
+            total:
+                type: integer
+                description: Total number of mails
+                example: 2428172349730475805
+                format: int64
+        description: ListMailAddressesResponseBody result type (default view)
+        example:
+            data:
+                - active: false
+                  address: k
+                  createdAt: Necessitatibus harum aut fuga dolorem dolore.
+                  id: Autem optio vitae ducimus neque illum quod.
+                  updateAt: Ab deleniti dicta nam praesentium iure non.
+                - active: false
+                  address: k
+                  createdAt: Necessitatibus harum aut fuga dolorem dolore.
+                  id: Autem optio vitae ducimus neque illum quod.
+                  updateAt: Ab deleniti dicta nam praesentium iure non.
+            limit: 1098076844706955025
+            page: 3180204785838894544
+            total: 4100206086397133993
+        required:
+            - data
+            - page
+            - limit
+            - total
+    Result:
+        title: Result
+        type: object
+        properties:
+            createdAt:
+                type: string
+                description: Created at date of scrape
+                example: Sed numquam eveniet eligendi placeat assumenda.
+            id:
+                type: string
+                description: Unique result ID
+                example: Facilis quos maiores fugit.
+            status:
+                type: string
+                description: Status result of scrape
+                example: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+            updateAt:
+                type: string
+                description: Updated at date of scrape
+                example: Cum corporis et placeat eum est.
+        description: Result type
+        example:
+            createdAt: Culpa facilis temporibus omnis.
+            id: Ex vel sed sed rerum.
+            status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+            updateAt: Fugiat magnam voluptas ducimus.
+        required:
+            - id
+            - status
+            - createdAt
+            - updateAt
+    ResultPayload:
+        title: ResultPayload
+        type: object
+        properties:
+            status:
+                type: string
+                description: Status result of scrape
+                example: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+        example:
+            status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+    Resultlist:
+        title: 'Mediatype identifier: resultlist; view=default'
+        type: object
+        properties:
+            data:
+                type: array
+                items:
+                    $ref: '#/definitions/Result'
+                example:
+                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
+                      id: Fugit veniam omnis quos.
+                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                      updateAt: Architecto dolorem quia ratione eum.
+                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
+                      id: Fugit veniam omnis quos.
+                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                      updateAt: Architecto dolorem quia ratione eum.
+                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
+                      id: Fugit veniam omnis quos.
+                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                      updateAt: Architecto dolorem quia ratione eum.
+            limit:
+                type: integer
+                description: Items per page
+                example: 5071166427239290468
+                format: int64
+            page:
+                type: integer
+                description: Page number
+                example: 3336573731201439299
+                format: int64
+            total:
+                type: integer
+                description: Total number of results
+                example: 7888952286984130458
+                format: int64
+        description: ListResultsResponseBody result type (default view)
+        example:
+            data:
+                - createdAt: Sunt natus atque voluptates sequi perspiciatis.
+                  id: Fugit veniam omnis quos.
+                  status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                  updateAt: Architecto dolorem quia ratione eum.
+                - createdAt: Sunt natus atque voluptates sequi perspiciatis.
+                  id: Fugit veniam omnis quos.
+                  status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                  updateAt: Architecto dolorem quia ratione eum.
+                - createdAt: Sunt natus atque voluptates sequi perspiciatis.
+                  id: Fugit veniam omnis quos.
+                  status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                  updateAt: Architecto dolorem quia ratione eum.
+            limit: 6523797233501573322
+            page: 3379338294994878959
+            total: 982431261193352786
+        required:
+            - data
+            - page
+            - limit
+            - total

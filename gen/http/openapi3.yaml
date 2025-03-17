@@ -1,0 +1,566 @@
+openapi: 3.0.3
+info:
+    title: Goa API
+    version: 0.0.1
+servers:
+    - url: http://localhost:80
+      description: Default server for MailAddresses
+paths:
+    /mail-address:
+        get:
+            tags:
+                - MailAddresses
+            summary: listMailAddresses MailAddresses
+            operationId: MailAddresses#listMailAddresses
+            parameters:
+                - name: page
+                  in: query
+                  description: Page number
+                  allowEmptyValue: true
+                  schema:
+                    type: integer
+                    description: Page number
+                    default: 1
+                    example: 4164898587707171012
+                    format: int64
+                    minimum: 0
+                  example: 5648931798956495669
+                - name: limit
+                  in: query
+                  description: Number of items per page
+                  allowEmptyValue: true
+                  schema:
+                    type: integer
+                    description: Number of items per page
+                    default: 10
+                    example: 65
+                    format: int64
+                    minimum: 0
+                    maximum: 100
+                  example: 80
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Maillist'
+                            example:
+                                data:
+                                    - active: false
+                                      address: k
+                                      createdAt: Necessitatibus harum aut fuga dolorem dolore.
+                                      id: Autem optio vitae ducimus neque illum quod.
+                                      updateAt: Ab deleniti dicta nam praesentium iure non.
+                                    - active: false
+                                      address: k
+                                      createdAt: Necessitatibus harum aut fuga dolorem dolore.
+                                      id: Autem optio vitae ducimus neque illum quod.
+                                      updateAt: Ab deleniti dicta nam praesentium iure non.
+                                limit: 680840283581300731
+                                page: 340963983917834133
+                                total: 5484795071010037191
+        post:
+            tags:
+                - MailAddresses
+            summary: createMailAddress MailAddresses
+            operationId: MailAddresses#createMailAddress
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MailPayload'
+                        example:
+                            active: true
+                            address: c
+            responses:
+                "201":
+                    description: Created response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Mail'
+                            example:
+                                active: true
+                                address: t
+                                createdAt: Et ex.
+                                id: Id non voluptatem distinctio nesciunt.
+                                updateAt: Error eum.
+    /mail-address/{id}:
+        delete:
+            tags:
+                - MailAddresses
+            summary: deleteMailAddress MailAddresses
+            operationId: MailAddresses#deleteMailAddress
+            parameters:
+                - name: id
+                  in: path
+                  description: Unique mail ID
+                  required: true
+                  schema:
+                    type: string
+                    description: Unique mail ID
+                    example: Est facilis et molestias molestias temporibus voluptas.
+                  example: Consequatur expedita et et doloremque.
+            responses:
+                "204":
+                    description: No Content response.
+                "404":
+                    description: 'not_found: Mail address not found'
+                    content:
+                        application/vnd.goa.error:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        get:
+            tags:
+                - MailAddresses
+            summary: getMailAddresses MailAddresses
+            description: Get mail address by ID
+            operationId: MailAddresses#getMailAddresses
+            parameters:
+                - name: id
+                  in: path
+                  description: Unique mail ID
+                  required: true
+                  schema:
+                    type: string
+                    description: Unique mail ID
+                    example: Dolores tempore atque.
+                  example: Harum quam repellat esse.
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Mail'
+                            example:
+                                active: false
+                                address: i
+                                createdAt: Quibusdam id rem cupiditate hic esse.
+                                id: Occaecati quae sed et doloremque iure.
+                                updateAt: Soluta id facere tempore occaecati dolorum impedit.
+                "404":
+                    description: 'not_found: Mail address not found'
+                    content:
+                        application/vnd.goa.error:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+        put:
+            tags:
+                - MailAddresses
+            summary: updateMailAddress MailAddresses
+            operationId: MailAddresses#updateMailAddress
+            parameters:
+                - name: id
+                  in: path
+                  description: Unique mail ID
+                  required: true
+                  schema:
+                    type: string
+                    description: Unique mail ID
+                    example: Consectetur nostrum.
+                  example: Nisi odit beatae.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateMailAddressRequestBody'
+                        example:
+                            active: true
+                            address: iy
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Mail'
+                            example:
+                                active: false
+                                address: dqn
+                                createdAt: Iusto ea aut.
+                                id: Aut facilis molestiae distinctio corporis.
+                                updateAt: Necessitatibus est vel quo.
+                "404":
+                    description: 'not_found: Mail address not found'
+                    content:
+                        application/vnd.goa.error:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+    /results:
+        get:
+            tags:
+                - Result
+            summary: listResults Result
+            operationId: Result#listResults
+            parameters:
+                - name: page
+                  in: query
+                  description: Page number
+                  allowEmptyValue: true
+                  schema:
+                    type: integer
+                    description: Page number
+                    default: 1
+                    example: 9148933865005922970
+                    format: int64
+                    minimum: 0
+                  example: 3317883046621441956
+                - name: limit
+                  in: query
+                  description: Number of items per page
+                  allowEmptyValue: true
+                  schema:
+                    type: integer
+                    description: Number of items per page
+                    default: 10
+                    example: 30
+                    format: int64
+                    minimum: 0
+                    maximum: 100
+                  example: 58
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Resultlist'
+                            example:
+                                data:
+                                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
+                                      id: Fugit veniam omnis quos.
+                                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                                      updateAt: Architecto dolorem quia ratione eum.
+                                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
+                                      id: Fugit veniam omnis quos.
+                                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                                      updateAt: Architecto dolorem quia ratione eum.
+                                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
+                                      id: Fugit veniam omnis quos.
+                                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                                      updateAt: Architecto dolorem quia ratione eum.
+                                limit: 1914179649776861130
+                                page: 3433567404871460086
+                                total: 5182557983531531652
+        post:
+            tags:
+                - Result
+            summary: createResult Result
+            operationId: Result#createResult
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ResultPayload'
+                        example:
+                            status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+            responses:
+                "201":
+                    description: Created response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Result'
+                            example:
+                                createdAt: Aut ea sunt culpa.
+                                id: Facere facilis optio cumque dicta iure necessitatibus.
+                                status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                                updateAt: Omnis dignissimos.
+components:
+    schemas:
+        Error:
+            type: object
+            properties:
+                fault:
+                    type: boolean
+                    description: Is the error a server-side fault?
+                    example: false
+                id:
+                    type: string
+                    description: ID is a unique identifier for this particular occurrence of the problem.
+                    example: 123abc
+                message:
+                    type: string
+                    description: Message is a human-readable explanation specific to this occurrence of the problem.
+                    example: parameter 'p' must be an integer
+                name:
+                    type: string
+                    description: Name is the name of this class of errors.
+                    example: bad_request
+                temporary:
+                    type: boolean
+                    description: Is the error temporary?
+                    example: false
+                timeout:
+                    type: boolean
+                    description: Is the error a timeout?
+                    example: true
+            description: Mail address not found
+            example:
+                fault: true
+                id: 123abc
+                message: parameter 'p' must be an integer
+                name: bad_request
+                temporary: false
+                timeout: false
+            required:
+                - name
+                - id
+                - message
+                - temporary
+                - timeout
+                - fault
+        Mail:
+            type: object
+            properties:
+                active:
+                    type: boolean
+                    description: Status of email address
+                    default: true
+                    example: false
+                address:
+                    type: string
+                    description: Address of user mail
+                    example: "0"
+                    format: email
+                    minLength: 1
+                createdAt:
+                    type: string
+                    description: Created at date of mail
+                    example: Nihil quia.
+                id:
+                    type: string
+                    description: Unique mail ID
+                    example: Consequatur eos facere ut.
+                updateAt:
+                    type: string
+                    description: Updated at date of mail
+                    example: Quo enim.
+            description: Mail type
+            example:
+                active: false
+                address: 0bm
+                createdAt: Non mollitia molestiae error.
+                id: Eligendi ipsum blanditiis est.
+                updateAt: Architecto rem et commodi repudiandae ducimus.
+            required:
+                - id
+                - address
+                - active
+                - createdAt
+                - updateAt
+        MailPayload:
+            type: object
+            properties:
+                active:
+                    type: boolean
+                    description: Status of email address
+                    default: true
+                    example: true
+                address:
+                    type: string
+                    description: Address of user mail
+                    example: nx9
+                    format: email
+                    minLength: 1
+            description: Payload of MailType
+            example:
+                active: true
+                address: "5"
+        Maillist:
+            type: object
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Mail'
+                    example:
+                        - active: false
+                          address: hmu
+                          createdAt: Earum voluptatem fuga natus aspernatur at.
+                          id: Magnam rerum quia hic dolorem ut.
+                          updateAt: Ipsum ratione saepe reprehenderit qui.
+                        - active: false
+                          address: hmu
+                          createdAt: Earum voluptatem fuga natus aspernatur at.
+                          id: Magnam rerum quia hic dolorem ut.
+                          updateAt: Ipsum ratione saepe reprehenderit qui.
+                        - active: false
+                          address: hmu
+                          createdAt: Earum voluptatem fuga natus aspernatur at.
+                          id: Magnam rerum quia hic dolorem ut.
+                          updateAt: Ipsum ratione saepe reprehenderit qui.
+                limit:
+                    type: integer
+                    description: Items per page
+                    example: 8907779844790502152
+                    format: int64
+                page:
+                    type: integer
+                    description: Page number
+                    example: 8269764688901528789
+                    format: int64
+                total:
+                    type: integer
+                    description: Total number of mails
+                    example: 143223609043026696
+                    format: int64
+            description: List of mails
+            example:
+                data:
+                    - active: false
+                      address: hmu
+                      createdAt: Earum voluptatem fuga natus aspernatur at.
+                      id: Magnam rerum quia hic dolorem ut.
+                      updateAt: Ipsum ratione saepe reprehenderit qui.
+                    - active: false
+                      address: hmu
+                      createdAt: Earum voluptatem fuga natus aspernatur at.
+                      id: Magnam rerum quia hic dolorem ut.
+                      updateAt: Ipsum ratione saepe reprehenderit qui.
+                    - active: false
+                      address: hmu
+                      createdAt: Earum voluptatem fuga natus aspernatur at.
+                      id: Magnam rerum quia hic dolorem ut.
+                      updateAt: Ipsum ratione saepe reprehenderit qui.
+                    - active: false
+                      address: hmu
+                      createdAt: Earum voluptatem fuga natus aspernatur at.
+                      id: Magnam rerum quia hic dolorem ut.
+                      updateAt: Ipsum ratione saepe reprehenderit qui.
+                limit: 8408658435700097544
+                page: 7726268516967888594
+                total: 3695297673310863125
+            required:
+                - data
+                - page
+                - limit
+                - total
+        Result:
+            type: object
+            properties:
+                createdAt:
+                    type: string
+                    description: Created at date of scrape
+                    example: Magnam exercitationem qui quasi velit.
+                id:
+                    type: string
+                    description: Unique result ID
+                    example: Rerum non ea.
+                status:
+                    type: string
+                    description: Status result of scrape
+                    example: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                updateAt:
+                    type: string
+                    description: Updated at date of scrape
+                    example: Et dolores.
+            description: Result type
+            example:
+                createdAt: Eos pariatur odit enim.
+                id: Consequuntur sit voluptates voluptatibus est doloribus.
+                status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                updateAt: Aliquam provident.
+            required:
+                - id
+                - status
+                - createdAt
+                - updateAt
+        ResultPayload:
+            type: object
+            properties:
+                status:
+                    type: string
+                    description: Status result of scrape
+                    example: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+            description: Payload of ResultType
+            example:
+                status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+        Resultlist:
+            type: object
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Result'
+                    example:
+                        - createdAt: In nesciunt quam.
+                          id: Suscipit nulla facilis.
+                          status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                          updateAt: Voluptas id atque soluta sint ea.
+                        - createdAt: In nesciunt quam.
+                          id: Suscipit nulla facilis.
+                          status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                          updateAt: Voluptas id atque soluta sint ea.
+                        - createdAt: In nesciunt quam.
+                          id: Suscipit nulla facilis.
+                          status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                          updateAt: Voluptas id atque soluta sint ea.
+                limit:
+                    type: integer
+                    description: Items per page
+                    example: 7488670805174659759
+                    format: int64
+                page:
+                    type: integer
+                    description: Page number
+                    example: 3993026754283824075
+                    format: int64
+                total:
+                    type: integer
+                    description: Total number of results
+                    example: 5949070187570719837
+                    format: int64
+            description: List of results
+            example:
+                data:
+                    - createdAt: In nesciunt quam.
+                      id: Suscipit nulla facilis.
+                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                      updateAt: Voluptas id atque soluta sint ea.
+                    - createdAt: In nesciunt quam.
+                      id: Suscipit nulla facilis.
+                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                      updateAt: Voluptas id atque soluta sint ea.
+                    - createdAt: In nesciunt quam.
+                      id: Suscipit nulla facilis.
+                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                      updateAt: Voluptas id atque soluta sint ea.
+                limit: 2956982624316753774
+                page: 3356445240411560159
+                total: 6198283385110414860
+            required:
+                - data
+                - page
+                - limit
+                - total
+        UpdateMailAddressRequestBody:
+            type: object
+            properties:
+                active:
+                    type: boolean
+                    description: Status of email address
+                    default: true
+                    example: false
+                address:
+                    type: string
+                    description: Address of user mail
+                    example: "5"
+                    format: email
+                    minLength: 1
+            example:
+                active: false
+                address: 0z
+            required:
+                - address
+                - active
+tags:
+    - name: MailAddresses
+      description: Servicio de recoleccion de datos sobre el talon de pago
+    - name: Result
+      description: Service to collect data about the payment slip
