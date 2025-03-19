@@ -31,7 +31,7 @@ result (list-results|create-result)
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
 	return os.Args[0] + ` mail-addresses list-mail-addresses --page 8115965748327412379 --limit 92` + "\n" +
-		os.Args[0] + ` result list-results --page 1230015249540505935 --limit 18` + "\n" +
+		os.Args[0] + ` result list-results --page 8705631896461064219 --limit 29` + "\n" +
 		""
 }
 
@@ -282,7 +282,7 @@ DeleteMailAddress implements deleteMailAddress.
     -id STRING: Unique mail ID
 
 Example:
-    %[1]s mail-addresses delete-mail-address --id "Eligendi numquam explicabo et et."
+    %[1]s mail-addresses delete-mail-address --id "Necessitatibus est vel quo."
 `, os.Args[0])
 }
 
@@ -308,7 +308,7 @@ ListResults implements listResults.
     -limit INT: 
 
 Example:
-    %[1]s result list-results --page 1230015249540505935 --limit 18
+    %[1]s result list-results --page 8705631896461064219 --limit 29
 `, os.Args[0])
 }
 

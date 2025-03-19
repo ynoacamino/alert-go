@@ -37,11 +37,11 @@ DELETE FROM mailAddress
 WHERE
     id = ?;
 
--- name: UpdateMailAddress :one
+-- name: UpdateMailAddress :exec
 UPDATE mailAddress
 SET
     address = ?,
     active = ?,
     updatedAt = CURRENT_TIMESTAMP
 WHERE
-    id = ? RETURNING *;
+    id = ?;

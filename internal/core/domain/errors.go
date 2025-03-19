@@ -1,20 +1,34 @@
 package domain
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
+// Error base de la capa Domain
+var ErrDomain = errors.New("[DOMAIN]")
+
+// Errores de entidad específica dentro del dominio
+var (
+	ErrMailAddress = fmt.Errorf("%w [mailAddress]", ErrDomain)
+	ErrResult      = fmt.Errorf("%w [result]", ErrDomain)
+)
+
+// Errores de validación comunes en el dominio
 var (
 	ErrInvalidID     = errors.New("invalid ID")
 	ErrInvalidEmail  = errors.New("invalid email format")
-	ErrNotFound      = errors.New("resource not found")
-	ErrConflict      = errors.New("conflict occurred while processing request")
-	ErrValidation    = errors.New("validation failed")
-	ErrInvalidStatus = errors.New("The status is not valid")
+	ErrInvalidStatus = errors.New("the status is not valid")
 )
 
-func ErrMailAddress(err error) error {
-	return errors.New("[ERROR] [DOMAIN] [mailAddress]" + err.Error())
-}
+// Errores compuestos para MailAddress
+var (
+	ErrMailAddressInvalidID    = fmt.Errorf("%w: %s", ErrInvalidID, ErrMailAddress)
+	ErrMailAddressInvalidEmail = fmt.Errorf("%w: %s", ErrInvalidEmail, ErrMailAddress)
+)
 
-func ErrResult(err error) error {
-	return errors.New("[ERROR] [DOMAIN] [mailAddress]" + err.Error())
-}
+// Errores compuestos para Result
+var (
+	ErrResultInvalidID     = fmt.Errorf("%w: %s", ErrInvalidID, ErrResult)
+	ErrResultInvalidStatus = fmt.Errorf("%w: %s", ErrInvalidStatus, ErrResult)
+)

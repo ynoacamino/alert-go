@@ -21,10 +21,10 @@ paths:
                     type: integer
                     description: Page number
                     default: 1
-                    example: 4164898587707171012
+                    example: 6543494967926942045
                     format: int64
                     minimum: 0
-                  example: 5648931798956495669
+                  example: 4164898587707171012
                 - name: limit
                   in: query
                   description: Number of items per page
@@ -33,11 +33,11 @@ paths:
                     type: integer
                     description: Number of items per page
                     default: 10
-                    example: 65
+                    example: 69
                     format: int64
                     minimum: 0
                     maximum: 100
-                  example: 80
+                  example: 65
             responses:
                 "200":
                     description: OK response.
@@ -101,8 +101,8 @@ paths:
                   schema:
                     type: string
                     description: Unique mail ID
-                    example: Est facilis et molestias molestias temporibus voluptas.
-                  example: Consequatur expedita et et doloremque.
+                    example: Tenetur aspernatur qui recusandae rerum temporibus.
+                  example: Iste sed.
             responses:
                 "204":
                     description: No Content response.
@@ -126,8 +126,8 @@ paths:
                   schema:
                     type: string
                     description: Unique mail ID
-                    example: Dolores tempore atque.
-                  example: Harum quam repellat esse.
+                    example: Dolorum dolores tempore atque eum harum.
+                  example: Repellat esse et consectetur nostrum dolorem nisi.
             responses:
                 "200":
                     description: OK response.
@@ -160,8 +160,8 @@ paths:
                   schema:
                     type: string
                     description: Unique mail ID
-                    example: Consectetur nostrum.
-                  example: Nisi odit beatae.
+                    example: Beatae magni est facilis et molestias molestias.
+                  example: Voluptas velit consequatur expedita et et.
             requestBody:
                 required: true
                 content:
@@ -174,16 +174,6 @@ paths:
             responses:
                 "200":
                     description: OK response.
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/Mail'
-                            example:
-                                active: false
-                                address: dqn
-                                createdAt: Iusto ea aut.
-                                id: Aut facilis molestiae distinctio corporis.
-                                updateAt: Necessitatibus est vel quo.
                 "404":
                     description: 'not_found: Mail address not found'
                     content:
@@ -205,10 +195,10 @@ paths:
                     type: integer
                     description: Page number
                     default: 1
-                    example: 9148933865005922970
+                    example: 126609030655498320
                     format: int64
                     minimum: 0
-                  example: 3317883046621441956
+                  example: 6016619857403903399
                 - name: limit
                   in: query
                   description: Number of items per page
@@ -217,11 +207,11 @@ paths:
                     type: integer
                     description: Number of items per page
                     default: 10
-                    example: 30
+                    example: 22
                     format: int64
                     minimum: 0
                     maximum: 100
-                  example: 58
+                  example: 95
             responses:
                 "200":
                     description: OK response.
@@ -231,21 +221,25 @@ paths:
                                 $ref: '#/components/schemas/Resultlist'
                             example:
                                 data:
-                                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
-                                      id: Fugit veniam omnis quos.
+                                    - createdAt: Et nihil eum aliquid.
+                                      id: Corrupti adipisci.
                                       status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                                      updateAt: Architecto dolorem quia ratione eum.
-                                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
-                                      id: Fugit veniam omnis quos.
+                                      updateAt: Eligendi numquam explicabo et et.
+                                    - createdAt: Et nihil eum aliquid.
+                                      id: Corrupti adipisci.
                                       status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                                      updateAt: Architecto dolorem quia ratione eum.
-                                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
-                                      id: Fugit veniam omnis quos.
+                                      updateAt: Eligendi numquam explicabo et et.
+                                    - createdAt: Et nihil eum aliquid.
+                                      id: Corrupti adipisci.
                                       status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                                      updateAt: Architecto dolorem quia ratione eum.
-                                limit: 1914179649776861130
-                                page: 3433567404871460086
-                                total: 5182557983531531652
+                                      updateAt: Eligendi numquam explicabo et et.
+                                    - createdAt: Et nihil eum aliquid.
+                                      id: Corrupti adipisci.
+                                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
+                                      updateAt: Eligendi numquam explicabo et et.
+                                limit: 2902736627482362795
+                                page: 716771436851890881
+                                total: 8000355777096260300
         post:
             tags:
                 - Result
@@ -267,10 +261,10 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Result'
                             example:
-                                createdAt: Aut ea sunt culpa.
-                                id: Facere facilis optio cumque dicta iure necessitatibus.
+                                createdAt: Perspiciatis nihil architecto dolorem.
+                                id: Quos mollitia sunt natus atque voluptates.
                                 status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                                updateAt: Omnis dignissimos.
+                                updateAt: Ratione eum.
 components:
     schemas:
         Error:
@@ -279,7 +273,7 @@ components:
                 fault:
                     type: boolean
                     description: Is the error a server-side fault?
-                    example: false
+                    example: true
                 id:
                     type: string
                     description: ID is a unique identifier for this particular occurrence of the problem.
@@ -302,12 +296,12 @@ components:
                     example: true
             description: Mail address not found
             example:
-                fault: true
+                fault: false
                 id: 123abc
                 message: parameter 'p' must be an integer
                 name: bad_request
                 temporary: false
-                timeout: false
+                timeout: true
             required:
                 - name
                 - id
@@ -322,32 +316,32 @@ components:
                     type: boolean
                     description: Status of email address
                     default: true
-                    example: false
+                    example: true
                 address:
                     type: string
                     description: Address of user mail
-                    example: "0"
+                    example: 6cr
                     format: email
                     minLength: 1
                 createdAt:
                     type: string
                     description: Created at date of mail
-                    example: Nihil quia.
+                    example: Ad hic.
                 id:
                     type: string
                     description: Unique mail ID
-                    example: Consequatur eos facere ut.
+                    example: Dolorem veritatis non sit laboriosam.
                 updateAt:
                     type: string
                     description: Updated at date of mail
-                    example: Quo enim.
+                    example: Tempore nihil voluptas veritatis aut.
             description: Mail type
             example:
-                active: false
-                address: 0bm
-                createdAt: Non mollitia molestiae error.
-                id: Eligendi ipsum blanditiis est.
-                updateAt: Architecto rem et commodi repudiandae ducimus.
+                active: true
+                address: 1g
+                createdAt: Dolorem magni aspernatur explicabo eligendi ipsum blanditiis.
+                id: Ut eius nihil quia nam quo.
+                updateAt: Qui non mollitia molestiae error omnis architecto.
             required:
                 - id
                 - address
@@ -361,17 +355,19 @@ components:
                     type: boolean
                     description: Status of email address
                     default: true
-                    example: true
+                    example: false
                 address:
                     type: string
                     description: Address of user mail
-                    example: nx9
+                    example: qfd
                     format: email
                     minLength: 1
             description: Payload of MailType
             example:
                 active: true
-                address: "5"
+                address: ipf
+            required:
+                - address
         Maillist:
             type: object
             properties:
@@ -395,20 +391,25 @@ components:
                           createdAt: Earum voluptatem fuga natus aspernatur at.
                           id: Magnam rerum quia hic dolorem ut.
                           updateAt: Ipsum ratione saepe reprehenderit qui.
+                        - active: false
+                          address: hmu
+                          createdAt: Earum voluptatem fuga natus aspernatur at.
+                          id: Magnam rerum quia hic dolorem ut.
+                          updateAt: Ipsum ratione saepe reprehenderit qui.
                 limit:
                     type: integer
                     description: Items per page
-                    example: 8907779844790502152
+                    example: 7654758945320400363
                     format: int64
                 page:
                     type: integer
                     description: Page number
-                    example: 8269764688901528789
+                    example: 5912319578802462837
                     format: int64
                 total:
                     type: integer
                     description: Total number of mails
-                    example: 143223609043026696
+                    example: 4080222961584843607
                     format: int64
             description: List of mails
             example:
@@ -433,9 +434,9 @@ components:
                       createdAt: Earum voluptatem fuga natus aspernatur at.
                       id: Magnam rerum quia hic dolorem ut.
                       updateAt: Ipsum ratione saepe reprehenderit qui.
-                limit: 8408658435700097544
-                page: 7726268516967888594
-                total: 3695297673310863125
+                limit: 143223609043026696
+                page: 8907779844790502152
+                total: 9064453613166147026
             required:
                 - data
                 - page
@@ -447,11 +448,11 @@ components:
                 createdAt:
                     type: string
                     description: Created at date of scrape
-                    example: Magnam exercitationem qui quasi velit.
+                    example: Rerum non ea.
                 id:
                     type: string
                     description: Unique result ID
-                    example: Rerum non ea.
+                    example: Modi nihil ipsum animi veritatis.
                 status:
                     type: string
                     description: Status result of scrape
@@ -459,13 +460,13 @@ components:
                 updateAt:
                     type: string
                     description: Updated at date of scrape
-                    example: Et dolores.
+                    example: Magnam exercitationem qui quasi velit.
             description: Result type
             example:
-                createdAt: Eos pariatur odit enim.
-                id: Consequuntur sit voluptates voluptatibus est doloribus.
+                createdAt: Consequuntur sit voluptates voluptatibus est doloribus.
+                id: Et dolores.
                 status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                updateAt: Aliquam provident.
+                updateAt: Eos pariatur odit enim.
             required:
                 - id
                 - status
@@ -497,24 +498,20 @@ components:
                           id: Suscipit nulla facilis.
                           status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
                           updateAt: Voluptas id atque soluta sint ea.
-                        - createdAt: In nesciunt quam.
-                          id: Suscipit nulla facilis.
-                          status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                          updateAt: Voluptas id atque soluta sint ea.
                 limit:
                     type: integer
                     description: Items per page
-                    example: 7488670805174659759
+                    example: 3695297673310863125
                     format: int64
                 page:
                     type: integer
                     description: Page number
-                    example: 3993026754283824075
+                    example: 8408658435700097544
                     format: int64
                 total:
                     type: integer
                     description: Total number of results
-                    example: 5949070187570719837
+                    example: 4139143259436377092
                     format: int64
             description: List of results
             example:
@@ -527,13 +524,9 @@ components:
                       id: Suscipit nulla facilis.
                       status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
                       updateAt: Voluptas id atque soluta sint ea.
-                    - createdAt: In nesciunt quam.
-                      id: Suscipit nulla facilis.
-                      status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                      updateAt: Voluptas id atque soluta sint ea.
-                limit: 2956982624316753774
-                page: 3356445240411560159
-                total: 6198283385110414860
+                limit: 5949070187570719837
+                page: 7488670805174659759
+                total: 6765000773301574885
             required:
                 - data
                 - page
@@ -550,12 +543,12 @@ components:
                 address:
                     type: string
                     description: Address of user mail
-                    example: "5"
+                    example: hi
                     format: email
                     minLength: 1
             example:
                 active: false
-                address: 0z
+                address: fy0
             required:
                 - address
                 - active

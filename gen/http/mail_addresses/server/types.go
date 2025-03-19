@@ -75,21 +75,6 @@ type CreateMailAddressResponseBody struct {
 	Active bool `form:"active" json:"active" xml:"active"`
 }
 
-// UpdateMailAddressResponseBody is the type of the "MailAddresses" service
-// "updateMailAddress" endpoint HTTP response body.
-type UpdateMailAddressResponseBody struct {
-	// Unique mail ID
-	ID string `form:"id" json:"id" xml:"id"`
-	// Created at date of mail
-	CreatedAt string `form:"createdAt" json:"createdAt" xml:"createdAt"`
-	// Updated at date of mail
-	UpdateAt string `form:"updateAt" json:"updateAt" xml:"updateAt"`
-	// Address of user mail
-	Address string `form:"address" json:"address" xml:"address"`
-	// Status of email address
-	Active bool `form:"active" json:"active" xml:"active"`
-}
-
 // GetMailAddressesNotFoundResponseBody is the type of the "MailAddresses"
 // service "getMailAddresses" endpoint HTTP response body for the "not_found"
 // error.
@@ -206,19 +191,6 @@ func NewCreateMailAddressResponseBody(res *mailaddresses.Mail) *CreateMailAddres
 	return body
 }
 
-// NewUpdateMailAddressResponseBody builds the HTTP response body from the
-// result of the "updateMailAddress" endpoint of the "MailAddresses" service.
-func NewUpdateMailAddressResponseBody(res *mailaddresses.Mail) *UpdateMailAddressResponseBody {
-	body := &UpdateMailAddressResponseBody{
-		ID:        res.ID,
-		CreatedAt: res.CreatedAt,
-		UpdateAt:  res.UpdateAt,
-		Address:   res.Address,
-		Active:    res.Active,
-	}
-	return body
-}
-
 // NewGetMailAddressesNotFoundResponseBody builds the HTTP response body from
 // the result of the "getMailAddresses" endpoint of the "MailAddresses" service.
 func NewGetMailAddressesNotFoundResponseBody(res *goa.ServiceError) *GetMailAddressesNotFoundResponseBody {
@@ -286,7 +258,7 @@ func NewGetMailAddressesPayload(id string) *mailaddresses.GetMailAddressesPayloa
 // createMailAddress endpoint payload.
 func NewCreateMailAddressMailPayload(body *CreateMailAddressRequestBody) *mailaddresses.MailPayload {
 	v := &mailaddresses.MailPayload{
-		Address: body.Address,
+		Address: *body.Address,
 	}
 	if body.Active != nil {
 		v.Active = *body.Active
@@ -322,6 +294,9 @@ func NewDeleteMailAddressPayload(id string) *mailaddresses.DeleteMailAddressPayl
 // ValidateCreateMailAddressRequestBody runs the validations defined on
 // CreateMailAddressRequestBody
 func ValidateCreateMailAddressRequestBody(body *CreateMailAddressRequestBody) (err error) {
+	if body.Address == nil {
+		err = goa.MergeErrors(err, goa.MissingFieldError("address", "body"))
+	}
 	if body.Address != nil {
 		err = goa.MergeErrors(err, goa.ValidateFormat("body.address", *body.Address, goa.FormatEmail))
 	}

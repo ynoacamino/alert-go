@@ -88,6 +88,13 @@ func BuildCreateMailAddressPayload(mailAddressesCreateMailAddressBody string) (*
 		if err != nil {
 			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"active\": true,\n      \"address\": \"c\"\n   }'")
 		}
+		err = goa.MergeErrors(err, goa.ValidateFormat("body.address", body.Address, goa.FormatEmail))
+		if utf8.RuneCountInString(body.Address) < 1 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError("body.address", body.Address, utf8.RuneCountInString(body.Address), 1, true))
+		}
+		if err != nil {
+			return nil, err
+		}
 	}
 	v := &mailaddresses.MailPayload{
 		Address: body.Address,

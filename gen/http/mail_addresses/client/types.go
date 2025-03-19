@@ -19,7 +19,7 @@ import (
 // "createMailAddress" endpoint HTTP request body.
 type CreateMailAddressRequestBody struct {
 	// Address of user mail
-	Address *string `form:"address,omitempty" json:"address,omitempty" xml:"address,omitempty"`
+	Address string `form:"address" json:"address" xml:"address"`
 	// Status of email address
 	Active bool `form:"active" json:"active" xml:"active"`
 }
@@ -63,21 +63,6 @@ type GetMailAddressesResponseBody struct {
 // CreateMailAddressResponseBody is the type of the "MailAddresses" service
 // "createMailAddress" endpoint HTTP response body.
 type CreateMailAddressResponseBody struct {
-	// Unique mail ID
-	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
-	// Created at date of mail
-	CreatedAt *string `form:"createdAt,omitempty" json:"createdAt,omitempty" xml:"createdAt,omitempty"`
-	// Updated at date of mail
-	UpdateAt *string `form:"updateAt,omitempty" json:"updateAt,omitempty" xml:"updateAt,omitempty"`
-	// Address of user mail
-	Address *string `form:"address,omitempty" json:"address,omitempty" xml:"address,omitempty"`
-	// Status of email address
-	Active *bool `form:"active,omitempty" json:"active,omitempty" xml:"active,omitempty"`
-}
-
-// UpdateMailAddressResponseBody is the type of the "MailAddresses" service
-// "updateMailAddress" endpoint HTTP response body.
-type UpdateMailAddressResponseBody struct {
 	// Unique mail ID
 	ID *string `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// Created at date of mail
@@ -246,20 +231,6 @@ func NewCreateMailAddressMailCreated(body *CreateMailAddressResponseBody) *maila
 	return v
 }
 
-// NewUpdateMailAddressMailOK builds a "MailAddresses" service
-// "updateMailAddress" endpoint result from a HTTP "OK" response.
-func NewUpdateMailAddressMailOK(body *UpdateMailAddressResponseBody) *mailaddresses.Mail {
-	v := &mailaddresses.Mail{
-		ID:        *body.ID,
-		CreatedAt: *body.CreatedAt,
-		UpdateAt:  *body.UpdateAt,
-		Address:   *body.Address,
-		Active:    *body.Active,
-	}
-
-	return v
-}
-
 // NewUpdateMailAddressNotFound builds a MailAddresses service
 // updateMailAddress endpoint not_found error.
 func NewUpdateMailAddressNotFound(body *UpdateMailAddressNotFoundResponseBody) *goa.ServiceError {
@@ -322,35 +293,6 @@ func ValidateGetMailAddressesResponseBody(body *GetMailAddressesResponseBody) (e
 // ValidateCreateMailAddressResponseBody runs the validations defined on
 // CreateMailAddressResponseBody
 func ValidateCreateMailAddressResponseBody(body *CreateMailAddressResponseBody) (err error) {
-	if body.ID == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
-	}
-	if body.Address == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("address", "body"))
-	}
-	if body.Active == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("active", "body"))
-	}
-	if body.CreatedAt == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("createdAt", "body"))
-	}
-	if body.UpdateAt == nil {
-		err = goa.MergeErrors(err, goa.MissingFieldError("updateAt", "body"))
-	}
-	if body.Address != nil {
-		err = goa.MergeErrors(err, goa.ValidateFormat("body.address", *body.Address, goa.FormatEmail))
-	}
-	if body.Address != nil {
-		if utf8.RuneCountInString(*body.Address) < 1 {
-			err = goa.MergeErrors(err, goa.InvalidLengthError("body.address", *body.Address, utf8.RuneCountInString(*body.Address), 1, true))
-		}
-	}
-	return
-}
-
-// ValidateUpdateMailAddressResponseBody runs the validations defined on
-// UpdateMailAddressResponseBody
-func ValidateUpdateMailAddressResponseBody(body *UpdateMailAddressResponseBody) (err error) {
 	if body.ID == nil {
 		err = goa.MergeErrors(err, goa.MissingFieldError("id", "body"))
 	}

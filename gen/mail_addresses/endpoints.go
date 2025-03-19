@@ -80,7 +80,7 @@ func NewCreateMailAddressEndpoint(s Service) goa.Endpoint {
 func NewUpdateMailAddressEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req any) (any, error) {
 		p := req.(*UpdateMailAddressPayload)
-		return s.UpdateMailAddress(ctx, p)
+		return nil, s.UpdateMailAddress(ctx, p)
 	}
 }
 

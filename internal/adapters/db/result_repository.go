@@ -27,7 +27,7 @@ func (r *ResultRepository) Save(ctx context.Context, result *domain.Result) (*do
 		Status: result.Status,
 	})
 	if err != nil {
-		return nil, ErrSaveResult(err)
+		return nil, mapSQLErrorResult(err)
 	}
 
 	saveResult := &domain.Result{
@@ -43,7 +43,7 @@ func (r *ResultRepository) Save(ctx context.Context, result *domain.Result) (*do
 func (r *ResultRepository) FindByID(ctx context.Context, id string) (*domain.Result, error) {
 	row, err := r.query.GetResult(ctx, id)
 	if err != nil {
-		return nil, ErrFindByIDResult(err)
+		return nil, mapSQLErrorResult(err)
 	}
 
 	return &domain.Result{
@@ -59,7 +59,7 @@ func (r *ResultRepository) List(ctx context.Context, limit, page int64) ([]*doma
 	if limit == 0 {
 		rows, err = r.query.ListAllResults(ctx)
 		if err != nil {
-			return nil, ErrListResults(err)
+			return nil, mapSQLErrorResult(err)
 		}
 	} else {
 		rows, err = r.query.ListResults(ctx, db.ListResultsParams{
@@ -67,7 +67,7 @@ func (r *ResultRepository) List(ctx context.Context, limit, page int64) ([]*doma
 			Offset: (page - 1) * limit,
 		})
 		if err != nil {
-			return nil, ErrListResults(err)
+			return nil, mapSQLErrorResult(err)
 		}
 	}
 
@@ -83,12 +83,12 @@ func (r *ResultRepository) List(ctx context.Context, limit, page int64) ([]*doma
 }
 
 func (r *ResultRepository) Update(ctx context.Context, result *domain.Result) error {
-	_, err := r.query.UpdateResult(ctx, db.UpdateResultParams{
+	err := r.query.UpdateResult(ctx, db.UpdateResultParams{
 		ID:     result.ID,
 		Status: result.Status,
 	})
 	if err != nil {
-		return ErrUpdateResult(err)
+		return mapSQLErrorResult(err)
 	}
 
 	return nil
@@ -97,7 +97,7 @@ func (r *ResultRepository) Update(ctx context.Context, result *domain.Result) er
 func (r *ResultRepository) Delete(ctx context.Context, id string) error {
 	err := r.query.DeleteResult(ctx, id)
 	if err != nil {
-		return ErrDeleteResult(err)
+		return mapSQLErrorResult(err)
 	}
 
 	return nil

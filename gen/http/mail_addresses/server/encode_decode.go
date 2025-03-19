@@ -186,11 +186,8 @@ func DecodeCreateMailAddressRequest(mux goahttp.Muxer, decoder func(*http.Reques
 // the MailAddresses updateMailAddress endpoint.
 func EncodeUpdateMailAddressResponse(encoder func(context.Context, http.ResponseWriter) goahttp.Encoder) func(context.Context, http.ResponseWriter, any) error {
 	return func(ctx context.Context, w http.ResponseWriter, v any) error {
-		res, _ := v.(*mailaddresses.Mail)
-		enc := encoder(ctx, w)
-		body := NewUpdateMailAddressResponseBody(res)
 		w.WriteHeader(http.StatusOK)
-		return enc.Encode(body)
+		return nil
 	}
 }
 

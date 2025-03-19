@@ -52,6 +52,8 @@ paths:
                   required: true
                   schema:
                     $ref: '#/definitions/MailPayload'
+                    required:
+                        - address
             responses:
                 "201":
                     description: Created response.
@@ -117,14 +119,6 @@ paths:
             responses:
                 "200":
                     description: OK response.
-                    schema:
-                        $ref: '#/definitions/Mail'
-                        required:
-                            - id
-                            - address
-                            - active
-                            - createdAt
-                            - updateAt
                 "404":
                     description: Not Found response.
                     schema:
@@ -216,28 +210,28 @@ definitions:
             address:
                 type: string
                 description: Address of user mail
-                example: 8g9
+                example: xw
                 format: email
                 minLength: 1
             createdAt:
                 type: string
                 description: Created at date of mail
-                example: Natus pariatur non.
+                example: Ipsam error facere facilis optio.
             id:
                 type: string
                 description: Unique mail ID
-                example: Corporis blanditiis qui qui deserunt.
+                example: Placeat beatae consequatur voluptas labore.
             updateAt:
                 type: string
                 description: Updated at date of mail
-                example: Cumque quia quisquam aliquid quam consequatur accusamus.
+                example: Dicta iure necessitatibus quasi aut.
         description: Mail type
         example:
             active: true
-            address: jn
-            createdAt: Id assumenda dolores aliquid dicta.
-            id: Odio eligendi.
-            updateAt: Dignissimos unde qui aut error.
+            address: 8g9
+            createdAt: Qui qui deserunt nemo natus pariatur non.
+            id: Dignissimos repellendus corporis.
+            updateAt: Cumque quia quisquam aliquid quam consequatur accusamus.
         required:
             - id
             - address
@@ -274,7 +268,7 @@ definitions:
                 example: false
         description: Mail address not found (default view)
         example:
-            fault: true
+            fault: false
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
@@ -294,7 +288,7 @@ definitions:
             fault:
                 type: boolean
                 description: Is the error a server-side fault?
-                example: true
+                example: false
             id:
                 type: string
                 description: ID is a unique identifier for this particular occurrence of the problem.
@@ -353,19 +347,19 @@ definitions:
             temporary:
                 type: boolean
                 description: Is the error temporary?
-                example: false
+                example: true
             timeout:
                 type: boolean
                 description: Is the error a timeout?
                 example: false
         description: Mail address not found (default view)
         example:
-            fault: false
+            fault: true
             id: 123abc
             message: parameter 'p' must be an integer
             name: bad_request
             temporary: false
-            timeout: false
+            timeout: true
         required:
             - name
             - id
@@ -381,16 +375,16 @@ definitions:
                 type: boolean
                 description: Status of email address
                 default: true
-                example: true
+                example: false
             address:
                 type: string
                 description: Address of user mail
-                example: 9te
+                example: "3"
                 format: email
                 minLength: 1
         example:
             active: true
-            address: q
+            address: o1a
         required:
             - address
             - active
@@ -406,12 +400,14 @@ definitions:
             address:
                 type: string
                 description: Address of user mail
-                example: o1a
+                example: sjn
                 format: email
                 minLength: 1
         example:
-            active: false
-            address: 1ob
+            active: true
+            address: em9
+        required:
+            - address
     Maillist:
         title: 'Mediatype identifier: maillist; view=default'
         type: object
@@ -444,17 +440,17 @@ definitions:
             limit:
                 type: integer
                 description: Items per page
-                example: 7091488937539681222
+                example: 8879520672104091520
                 format: int64
             page:
                 type: integer
                 description: Page number
-                example: 8111986556158612850
+                example: 1007158462382758187
                 format: int64
             total:
                 type: integer
                 description: Total number of mails
-                example: 2428172349730475805
+                example: 8575113946938552447
                 format: int64
         description: ListMailAddressesResponseBody result type (default view)
         example:
@@ -469,9 +465,14 @@ definitions:
                   createdAt: Necessitatibus harum aut fuga dolorem dolore.
                   id: Autem optio vitae ducimus neque illum quod.
                   updateAt: Ab deleniti dicta nam praesentium iure non.
-            limit: 1098076844706955025
-            page: 3180204785838894544
-            total: 4100206086397133993
+                - active: false
+                  address: k
+                  createdAt: Necessitatibus harum aut fuga dolorem dolore.
+                  id: Autem optio vitae ducimus neque illum quod.
+                  updateAt: Ab deleniti dicta nam praesentium iure non.
+            limit: 9110688497955795089
+            page: 5656522343359333979
+            total: 850673698430259482
         required:
             - data
             - page
@@ -484,11 +485,11 @@ definitions:
             createdAt:
                 type: string
                 description: Created at date of scrape
-                example: Sed numquam eveniet eligendi placeat assumenda.
+                example: Harum culpa fugiat neque nam aut.
             id:
                 type: string
                 description: Unique result ID
-                example: Facilis quos maiores fugit.
+                example: Saepe provident sit sed.
             status:
                 type: string
                 description: Status result of scrape
@@ -496,13 +497,13 @@ definitions:
             updateAt:
                 type: string
                 description: Updated at date of scrape
-                example: Cum corporis et placeat eum est.
+                example: Consequatur autem quasi quas.
         description: Result type
         example:
-            createdAt: Culpa facilis temporibus omnis.
-            id: Ex vel sed sed rerum.
+            createdAt: Maiores fugit veniam sed numquam eveniet eligendi.
+            id: Sint voluptate facilis.
             status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-            updateAt: Fugiat magnam voluptas ducimus.
+            updateAt: Assumenda non cum corporis et.
         required:
             - id
             - status
@@ -527,51 +528,51 @@ definitions:
                 items:
                     $ref: '#/definitions/Result'
                 example:
-                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
-                      id: Fugit veniam omnis quos.
+                    - createdAt: Et nihil eum aliquid.
+                      id: Corrupti adipisci.
                       status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                      updateAt: Architecto dolorem quia ratione eum.
-                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
-                      id: Fugit veniam omnis quos.
+                      updateAt: Eligendi numquam explicabo et et.
+                    - createdAt: Et nihil eum aliquid.
+                      id: Corrupti adipisci.
                       status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                      updateAt: Architecto dolorem quia ratione eum.
-                    - createdAt: Sunt natus atque voluptates sequi perspiciatis.
-                      id: Fugit veniam omnis quos.
+                      updateAt: Eligendi numquam explicabo et et.
+                    - createdAt: Et nihil eum aliquid.
+                      id: Corrupti adipisci.
                       status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                      updateAt: Architecto dolorem quia ratione eum.
+                      updateAt: Eligendi numquam explicabo et et.
             limit:
                 type: integer
                 description: Items per page
-                example: 5071166427239290468
+                example: 2949390883894271126
                 format: int64
             page:
                 type: integer
                 description: Page number
-                example: 3336573731201439299
+                example: 3372673253436973395
                 format: int64
             total:
                 type: integer
                 description: Total number of results
-                example: 7888952286984130458
+                example: 605627073905784686
                 format: int64
         description: ListResultsResponseBody result type (default view)
         example:
             data:
-                - createdAt: Sunt natus atque voluptates sequi perspiciatis.
-                  id: Fugit veniam omnis quos.
+                - createdAt: Et nihil eum aliquid.
+                  id: Corrupti adipisci.
                   status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                  updateAt: Architecto dolorem quia ratione eum.
-                - createdAt: Sunt natus atque voluptates sequi perspiciatis.
-                  id: Fugit veniam omnis quos.
+                  updateAt: Eligendi numquam explicabo et et.
+                - createdAt: Et nihil eum aliquid.
+                  id: Corrupti adipisci.
                   status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                  updateAt: Architecto dolorem quia ratione eum.
-                - createdAt: Sunt natus atque voluptates sequi perspiciatis.
-                  id: Fugit veniam omnis quos.
+                  updateAt: Eligendi numquam explicabo et et.
+                - createdAt: Et nihil eum aliquid.
+                  id: Corrupti adipisci.
                   status: AVAILABLE, NOT_AVAILABLE or TIMEOUT
-                  updateAt: Architecto dolorem quia ratione eum.
-            limit: 6523797233501573322
-            page: 3379338294994878959
-            total: 982431261193352786
+                  updateAt: Eligendi numquam explicabo et et.
+            limit: 7826705684134932775
+            page: 6711631781613832425
+            total: 933645411252342944
         required:
             - data
             - page

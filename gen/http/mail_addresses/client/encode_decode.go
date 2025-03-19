@@ -309,20 +309,7 @@ func DecodeUpdateMailAddressResponse(decoder func(*http.Response) goahttp.Decode
 		}
 		switch resp.StatusCode {
 		case http.StatusOK:
-			var (
-				body UpdateMailAddressResponseBody
-				err  error
-			)
-			err = decoder(resp).Decode(&body)
-			if err != nil {
-				return nil, goahttp.ErrDecodingError("MailAddresses", "updateMailAddress", err)
-			}
-			err = ValidateUpdateMailAddressResponseBody(&body)
-			if err != nil {
-				return nil, goahttp.ErrValidationError("MailAddresses", "updateMailAddress", err)
-			}
-			res := NewUpdateMailAddressMailOK(&body)
-			return res, nil
+			return nil, nil
 		case http.StatusNotFound:
 			var (
 				body UpdateMailAddressNotFoundResponseBody

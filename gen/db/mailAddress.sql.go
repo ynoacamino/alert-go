@@ -152,14 +152,14 @@ func (q *Queries) ListMailAddresses(ctx context.Context, arg ListMailAddressesPa
 	return items, nil
 }
 
-const updateMailAddress = `-- name: UpdateMailAddress :one
+const updateMailAddress = `-- name: UpdateMailAddress :exec
 UPDATE mailAddress
 SET
     address = ?,
     active = ?,
     updatedAt = CURRENT_TIMESTAMP
 WHERE
-    id = ? RETURNING id, address, active, createdat, updatedat
+    id = ?
 `
 
 type UpdateMailAddressParams struct {
@@ -168,15 +168,7 @@ type UpdateMailAddressParams struct {
 	ID      string
 }
 
-func (q *Queries) UpdateMailAddress(ctx context.Context, arg UpdateMailAddressParams) (MailAddress, error) {
-	row := q.db.QueryRowContext(ctx, updateMailAddress, arg.Address, arg.Active, arg.ID)
-	var i MailAddress
-	err := row.Scan(
-		&i.ID,
-		&i.Address,
-		&i.Active,
-		&i.Createdat,
-		&i.Updatedat,
-	)
-	return i, err
+func (q *Queries) UpdateMailAddress(ctx context.Context, arg UpdateMailAddressParams) error {
+	_, err := q.db.ExecContext(ctx, updateMailAddress, arg.Address, arg.Active, arg.ID)
+	return err
 }

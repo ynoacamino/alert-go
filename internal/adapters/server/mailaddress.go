@@ -69,7 +69,7 @@ func (m *MailAddressEndPointService) CreateMailAddress(ctx context.Context, payl
 		return nil, err
 	}
 
-	mailAddress, err := m.repo.CreateMailAddress(ctx, uuid.String(), *payload.Address, payload.Active)
+	mailAddress, err := m.repo.CreateMailAddress(ctx, uuid.String(), payload.Address, payload.Active)
 	if err != nil {
 		return nil, err
 	}
@@ -83,19 +83,13 @@ func (m *MailAddressEndPointService) CreateMailAddress(ctx context.Context, payl
 	}, nil
 }
 
-func (m *MailAddressEndPointService) UpdateMailAddress(ctx context.Context, payload *genMailAddress.UpdateMailAddressPayload) (*genMailAddress.Mail, error) {
-	mailAddress, err := m.repo.UpdateMailAddress(ctx, payload.ID, payload.Address, payload.Active)
+func (m *MailAddressEndPointService) UpdateMailAddress(ctx context.Context, payload *genMailAddress.UpdateMailAddressPayload) error {
+	err := m.repo.UpdateMailAddress(ctx, payload.ID, payload.Address, payload.Active)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return &genMailAddress.Mail{
-		ID:        mailAddress.ID,
-		Address:   mailAddress.Address,
-		Active:    mailAddress.Active,
-		CreatedAt: mailAddress.CreatedAt.String(),
-		UpdateAt:  mailAddress.UpdatedAt.String(),
-	}, nil
+	return nil
 }
 
 func (m *MailAddressEndPointService) DeleteMailAddress(ctx context.Context, payload *genMailAddress.DeleteMailAddressPayload) error {

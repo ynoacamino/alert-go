@@ -32,13 +32,13 @@ FROM
 WHERE
     id = ?;
 
--- name: UpdateResult :one
+-- name: UpdateResult :exec
 UPDATE result
 SET
     status = ?,
     updatedAt = CURRENT_TIMESTAMP
 WHERE
-    id = ? RETURNING *;
+    id = ?;
 
 -- name: DeleteResult :exec
 DELETE FROM result

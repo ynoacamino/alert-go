@@ -13,6 +13,11 @@ func ConnectDB(DATABASE_URL string) (*sql.DB, error) {
 		return nil, err
 	}
 
+	_, err = db.Exec("PRAGMA journal_mode=WAL;")
+	if err != nil {
+		return nil, err
+	}
+
 	if err := db.Ping(); err != nil {
 		return nil, err
 	}

@@ -23,7 +23,7 @@ type Service interface {
 	// CreateMailAddress implements createMailAddress.
 	CreateMailAddress(context.Context, *MailPayload) (res *Mail, err error)
 	// UpdateMailAddress implements updateMailAddress.
-	UpdateMailAddress(context.Context, *UpdateMailAddressPayload) (res *Mail, err error)
+	UpdateMailAddress(context.Context, *UpdateMailAddressPayload) (err error)
 	// DeleteMailAddress implements deleteMailAddress.
 	DeleteMailAddress(context.Context, *DeleteMailAddressPayload) (err error)
 }
@@ -85,7 +85,7 @@ type Mail struct {
 // createMailAddress method.
 type MailPayload struct {
 	// Address of user mail
-	Address *string
+	Address string
 	// Status of email address
 	Active bool
 }

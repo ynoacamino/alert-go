@@ -1,49 +1,74 @@
 package db
 
-import "errors"
+import (
+	"database/sql"
+	"errors"
+	"fmt"
 
-var ErrDB = errors.New("[ERROR] [DB] ")
+	"github.com/mattn/go-sqlite3"
+)
 
-var ErrResultRepository = errors.New(ErrDB.Error() + "[result repository] ")
+var ErrDB = errors.New("[DB]")
 
-var ErrMailAddressRepository = errors.New(ErrDB.Error() + "[mailAddress repository] ")
+var (
+	ErrResultRepository      = fmt.Errorf("%w [result repository]", ErrDB)
+	ErrMailAddressRepository = fmt.Errorf("%w [mailAddress repository]", ErrDB)
+)
 
-func ErrSaveResult(err error) error {
-	return errors.New(ErrResultRepository.Error() + "[save result failed]: " + err.Error())
+var (
+	ErrConnection = errors.New("connection error")
+	ErrNotFound   = errors.New("not found")
+	ErrUnique     = errors.New("unique constraint violation")
+)
+
+var (
+	ErrResultConnection = fmt.Errorf("%w: %s", ErrConnection, ErrResultRepository)
+	ErrResultNotFound   = fmt.Errorf("%w: %s", ErrNotFound, ErrResultRepository)
+	ErrResultUnique     = fmt.Errorf("%w: %s", ErrUnique, ErrResultRepository)
+)
+
+var (
+	ErrMailAddressConnection = fmt.Errorf("%w: %s", ErrConnection, ErrMailAddressRepository)
+	ErrMailAddressNotFound   = fmt.Errorf("%w: %s", ErrNotFound, ErrMailAddressRepository)
+	ErrMailAddressUnique     = fmt.Errorf("%w: %s", ErrUnique, ErrMailAddressRepository)
+)
+
+func mapSQLError(err error) error {
+	if errors.Is(err, sql.ErrNoRows) {
+		return ErrNotFound
+	}
+
+	var sqliteErr sqlite3.Error
+	if errors.As(err, &sqliteErr) {
+		switch sqliteErr.ExtendedCode {
+		case sqlite3.ErrConstraintUnique:
+			return ErrUnique
+		}
+	}
+
+	return err
 }
 
-func ErrUpdateResult(err error) error {
-	return errors.New(ErrResultRepository.Error() + "[update result failed]: " + err.Error())
+func mapSQLErrorResult(err error) error {
+	if errors.Is(err, sql.ErrNoRows) {
+		return ErrResultNotFound
+	}
+
+	if errors.Is(err, ErrUnique) {
+		return ErrResultUnique
+	}
+
+	return err
 }
 
-func ErrDeleteResult(err error) error {
-	return errors.New(ErrResultRepository.Error() + "[delete result failed]: " + err.Error())
-}
+func mapSQLErrorMailAddress(err error) error {
+	if errors.Is(err, sql.ErrNoRows) {
+		return ErrMailAddressNotFound
+	}
 
-func ErrFindByIDResult(err error) error {
-	return errors.New(ErrResultRepository.Error() + "[find by id result failed]: " + err.Error())
-}
+	if errors.Is(err, ErrUnique) {
+		return ErrMailAddressUnique
+	}
 
-func ErrListResults(err error) error {
-	return errors.New(ErrResultRepository.Error() + "[list results failed]: " + err.Error())
-}
-
-func ErrSaveMailAddress(err error) error {
-	return errors.New(ErrMailAddressRepository.Error() + "[save mail address failed]: " + err.Error())
-}
-
-func ErrUpdateMailAddress(err error) error {
-	return errors.New(ErrMailAddressRepository.Error() + "[update mail address failed]: " + err.Error())
-}
-
-func ErrDeleteMailAddress(err error) error {
-	return errors.New(ErrMailAddressRepository.Error() + "[delete mail address failed]: " + err.Error())
-}
-
-func ErrFindByIDMailAddress(err error) error {
-	return errors.New(ErrMailAddressRepository.Error() + "[find by id mail address failed]: " + err.Error())
-}
-
-func ErrListMailAddresses(err error) error {
-	return errors.New(ErrMailAddressRepository.Error() + "[list mail addresses failed]: " + err.Error())
+	return err
 }

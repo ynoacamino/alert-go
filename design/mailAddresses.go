@@ -15,6 +15,8 @@ var MailAddressPaylaod = Type("MailPayload", func() {
 	Attribute("active", Boolean, "Status of email address", func() {
 		Default(true)
 	})
+
+	Required("address")
 })
 
 var MailInterface = Type("Mail", func() {
@@ -109,7 +111,6 @@ var _ = Service("MailAddresses", func() {
 			Required("id", "address", "active")
 		})
 
-		Result(MailInterface)
 		Error("not_found", ErrorResult, "Mail address not found")
 
 		HTTP(func() {

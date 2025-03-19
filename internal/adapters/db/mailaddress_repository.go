@@ -25,7 +25,7 @@ func (r *MailAddressRepository) Save(ctx context.Context, mail *domain.MailAddre
 		Address: mail.Address,
 	})
 	if err != nil {
-		return nil, ErrSaveMailAddress(err)
+		return nil, mapSQLErrorMailAddress(err)
 	}
 
 	saveMailAddress := &domain.MailAddress{
@@ -42,7 +42,7 @@ func (r *MailAddressRepository) Save(ctx context.Context, mail *domain.MailAddre
 func (r *MailAddressRepository) FindByID(ctx context.Context, id string) (*domain.MailAddress, error) {
 	row, err := r.queries.GetMailAddress(ctx, id)
 	if err != nil {
-		return nil, ErrFindByIDMailAddress(err)
+		return nil, mapSQLErrorMailAddress(err)
 	}
 
 	return &domain.MailAddress{
@@ -60,7 +60,7 @@ func (r *MailAddressRepository) List(ctx context.Context, limit, page int64) ([]
 		Offset: (page - 1) * limit,
 	})
 	if err != nil {
-		return nil, ErrListMailAddresses(err)
+		return nil, mapSQLErrorMailAddress(err)
 	}
 
 	mailAddresses := make([]*domain.MailAddress, len(rows))
@@ -80,20 +80,20 @@ func (r *MailAddressRepository) List(ctx context.Context, limit, page int64) ([]
 func (r *MailAddressRepository) Delete(ctx context.Context, id string) error {
 	err := r.queries.DeleteMailAddress(ctx, id)
 	if err != nil {
-		return ErrDeleteMailAddress(err)
+		return mapSQLErrorMailAddress(err)
 	}
 
 	return nil
 }
 
 func (r *MailAddressRepository) Update(ctx context.Context, mail *domain.MailAddress) error {
-	_, err := r.queries.UpdateMailAddress(ctx, db.UpdateMailAddressParams{
+	err := r.queries.UpdateMailAddress(ctx, db.UpdateMailAddressParams{
 		ID:      mail.ID,
 		Address: mail.Address,
 		Active:  mail.Active,
 	})
 	if err != nil {
-		return ErrUpdateMailAddress(err)
+		return mapSQLErrorMailAddress(err)
 	}
 
 	return nil

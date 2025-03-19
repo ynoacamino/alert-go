@@ -74,13 +74,9 @@ func (c *Client) CreateMailAddress(ctx context.Context, p *MailPayload) (res *Ma
 // UpdateMailAddress may return the following errors:
 //   - "not_found" (type *goa.ServiceError): Mail address not found
 //   - error: internal error
-func (c *Client) UpdateMailAddress(ctx context.Context, p *UpdateMailAddressPayload) (res *Mail, err error) {
-	var ires any
-	ires, err = c.UpdateMailAddressEndpoint(ctx, p)
-	if err != nil {
-		return
-	}
-	return ires.(*Mail), nil
+func (c *Client) UpdateMailAddress(ctx context.Context, p *UpdateMailAddressPayload) (err error) {
+	_, err = c.UpdateMailAddressEndpoint(ctx, p)
+	return
 }
 
 // DeleteMailAddress calls the "deleteMailAddress" endpoint of the

@@ -11,19 +11,35 @@ type Result struct {
 	UpdatedAt time.Time
 }
 
-var ValidStatus = map[string]bool{
-	"AVALIBLE":     true,
-	"NOT_AVALIBLE": true,
-	"TIMEOUT":      true,
+var validStatus = map[string]bool{
+	"AVAILABLE":     true,
+	"NOT_AVAILABLE": true,
+	"TIMEOUT":       true,
+}
+
+func ValidateResultID(id string) error {
+	if id == "" {
+		return ErrResultInvalidID
+	}
+	return nil
+}
+
+func ValidateResultStatus(status string) error {
+	if !validStatus[status] {
+		return ErrResultInvalidStatus
+	}
+	return nil
 }
 
 func NewResult(id, status string) (*Result, error) {
-	if id == "" {
-		return nil, ErrResult(ErrInvalidID)
+	err := ValidateResultID(id)
+	if err != nil {
+		return nil, err
 	}
 
-	if !ValidStatus[status] {
-		return nil, ErrResult(ErrInvalidStatus)
+	err = ValidateResultStatus(status)
+	if err != nil {
+		return nil, err
 	}
 
 	return &Result{
@@ -33,8 +49,9 @@ func NewResult(id, status string) (*Result, error) {
 }
 
 func (r *Result) UpdateStatus(status string) error {
-	if !ValidStatus[status] {
-		return ErrResult(ErrInvalidStatus)
+	err := ValidateResultStatus(status)
+	if err != nil {
+		return err
 	}
 
 	r.Status = status

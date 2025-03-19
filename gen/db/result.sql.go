@@ -148,13 +148,13 @@ func (q *Queries) ListResults(ctx context.Context, arg ListResultsParams) ([]Res
 	return items, nil
 }
 
-const updateResult = `-- name: UpdateResult :one
+const updateResult = `-- name: UpdateResult :exec
 UPDATE result
 SET
     status = ?,
     updatedAt = CURRENT_TIMESTAMP
 WHERE
-    id = ? RETURNING id, status, createdat, updatedat
+    id = ?
 `
 
 type UpdateResultParams struct {
@@ -162,14 +162,7 @@ type UpdateResultParams struct {
 	ID     string
 }
 
-func (q *Queries) UpdateResult(ctx context.Context, arg UpdateResultParams) (Result, error) {
-	row := q.db.QueryRowContext(ctx, updateResult, arg.Status, arg.ID)
-	var i Result
-	err := row.Scan(
-		&i.ID,
-		&i.Status,
-		&i.Createdat,
-		&i.Updatedat,
-	)
-	return i, err
+func (q *Queries) UpdateResult(ctx context.Context, arg UpdateResultParams) error {
+	_, err := q.db.ExecContext(ctx, updateResult, arg.Status, arg.ID)
+	return err
 }

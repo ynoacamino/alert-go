@@ -13,9 +13,32 @@ type MailAddress struct {
 	UpdatedAt time.Time
 }
 
-func NewMailAddress(id, address string, active bool) (*MailAddress, error) {
+func ValidateMailAddressID(id string) error {
 	if id == "" {
-		return nil, ErrMailAddress(ErrInvalidID)
+		return ErrResultInvalidID
+	}
+	return nil
+}
+
+func ValidateEmail(email string) error {
+	_, err := mail.ParseAddress(email)
+
+	if err != nil {
+		return ErrMailAddressInvalidEmail
+	}
+
+	return nil
+}
+
+func NewMailAddress(id, address string, active bool) (*MailAddress, error) {
+	err := ValidateMailAddressID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	err = ValidateEmail(address)
+	if err != nil {
+		return nil, err
 	}
 
 	return &MailAddress{
@@ -34,23 +57,12 @@ func (m *MailAddress) Deactivate() {
 }
 
 func (m *MailAddress) UpdateAddress(address string) error {
-	err := validateEmail(address)
-
+	err := ValidateEmail(address)
 	if err != nil {
 		return err
 	}
 
 	m.Address = address
-
-	return nil
-}
-
-func validateEmail(email string) error {
-	_, err := mail.ParseAddress(email)
-
-	if err != nil {
-		return ErrMailAddress(ErrInvalidEmail)
-	}
 
 	return nil
 }
